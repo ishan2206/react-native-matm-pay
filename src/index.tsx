@@ -7,16 +7,20 @@ const LINKING_ERROR =
   '- You are not using Expo Go\n';
 
 const InstantpayMpos = NativeModules.InstantpayMpos
-  ? NativeModules.InstantpayMpos
-  : new Proxy(
-      {},
-      {
-        get() {
-          throw new Error(LINKING_ERROR);
-        },
-      }
+    ? NativeModules.InstantpayMpos
+    : new Proxy(
+        {},
+        {
+            get() {
+                throw new Error(LINKING_ERROR);
+            },
+        }
     );
+    
+export function disconnectDevice(): Promise<Object> {
+    return InstantpayMpos.disconnectDevice();
+}
 
-export function multiply(a: number, b: number): Promise<number> {
-  return InstantpayMpos.multiply(a, b);
+export function startTransaction(options:Object): Promise<Object> {
+    return InstantpayMpos.startTransaction(options);
 }
