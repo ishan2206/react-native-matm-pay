@@ -36,7 +36,7 @@ class InstantpayMposModule(reactContext: ReactApplicationContext) : ReactContext
     ) {
       super.onActivityResult(activity, requestCode, resultCode, data)
 
-      if (requestCode == 1) {
+      if (requestCode == 100) {
 
         when (resultCode) {
 
@@ -228,7 +228,7 @@ class InstantpayMposModule(reactContext: ReactApplicationContext) : ReactContext
 
       intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
-      activity.startActivityForResult(intent , 1);
+      activity.startActivityForResult(intent , 100);
 
     }
     catch (e: Exception){
