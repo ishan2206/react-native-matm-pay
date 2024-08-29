@@ -43,28 +43,31 @@ class InstantpayMposModule(reactContext: ReactApplicationContext) : ReactContext
           CredopayPaymentConstants.TRANSACTION_COMPLETED -> {
 
             val res = JSONObject();
-            if (data != null) {
-              res.put("rrn",data.getStringExtra("rrn"))
-              res.put("transactionId",data.getStringExtra("transaction_id"))
-              res.put("maskedPan",data.getStringExtra("masked_pan"))
-              res.put("tc",data.getStringExtra("tc"))
-              res.put("tvr",data.getStringExtra("tvr"))
-              res.put("tsi",data.getStringExtra("tsi"))
-              res.put("approvalCode",data.getStringExtra("approval_code"))
-              res.put("customerRefNo",data.getStringExtra("crn_u"))
-              //res.put("network",data.getStringExtra("network"))
-              res.put("cardApplicationName",data.getStringExtra("card_application_name"))
-              res.put("cardHolderName",data.getStringExtra("card_holder_name"))
-              res.put("appVersion",data.getStringExtra("app_version"))
-              res.put("cardType",data.getStringExtra("card_type"))
-              res.put("applicationIdentifier",data.getStringExtra("aid"))
-              res.put("accountBalance",data.getStringExtra("account_balance"))
-              res.put("amount",data.getStringExtra("amount"))
-              res.put("transactionType",data.getStringExtra("transaction_type"))
-              res.put("datetime",data.getStringExtra("datetime"))
+            //            if (data != null) {
+//              res.put("rrn",data?.getStringExtra("rrn"))
+//              res.put("transactionId",data.getStringExtra("transaction_id"))
+//              res.put("maskedPan",data.getStringExtra("masked_pan"))
+//              res.put("tc",data.getStringExtra("tc"))
+//              res.put("tvr",data.getStringExtra("tvr"))
+//              res.put("tsi",data.getStringExtra("tsi"))
+//              res.put("approvalCode",data.getStringExtra("approval_code"))
+//              res.put("customerRefNo",data.getStringExtra("crn_u"))
+//              //res.put("network",data.getStringExtra("network"))
+//              res.put("cardApplicationName",data.getStringExtra("card_application_name"))
+//              res.put("cardHolderName",data.getStringExtra("card_holder_name"))
+//              res.put("appVersion",data.getStringExtra("app_version"))
+//              res.put("cardType",data.getStringExtra("card_type"))
+//              res.put("applicationIdentifier",data.getStringExtra("aid"))
+//              res.put("accountBalance",data.getStringExtra("account_balance"))
+//              res.put("amount",data.getStringExtra("amount"))
+//              res.put("transactionType",data.getStringExtra("transaction_type"))
+//              res.put("datetime",data.getStringExtra("datetime"))
+//            }
+            if(data != null){
+              return resolve("Transaction Successful", SUCCESS, data.toString());
             }
 
-            return resolve("Transaction Successfull", SUCCESS, res.toString());
+            return resolve("Transaction Successful", SUCCESS, "{}");
           }
           CredopayPaymentConstants.TRANSACTION_CANCELLED -> {
 
