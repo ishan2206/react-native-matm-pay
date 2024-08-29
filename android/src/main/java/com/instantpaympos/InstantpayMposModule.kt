@@ -64,7 +64,7 @@ class InstantpayMposModule(reactContext: ReactApplicationContext) : ReactContext
 //              res.put("datetime",data.getStringExtra("datetime"))
 //            }
             if(data != null){
-              return resolve("Transaction Successful", SUCCESS, data.toString());
+              return resolve("Transaction Successful", SUCCESS, "Success");
             }
 
             return resolve("Transaction Successful", SUCCESS, "{}");
@@ -229,7 +229,7 @@ class InstantpayMposModule(reactContext: ReactApplicationContext) : ReactContext
         }
       }
 
-      intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+     // intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
       activity.startActivityForResult(intent , 100);
 
