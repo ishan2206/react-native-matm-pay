@@ -36,7 +36,7 @@ class InstantpayMposModule(reactContext: ReactApplicationContext) : ReactContext
     ) {
       super.onActivityResult(activity, requestCode, resultCode, data)
 
-      if (requestCode == 100) {
+      if (requestCode == 1000992) {
 
         when (resultCode) {
 
@@ -273,8 +273,8 @@ class InstantpayMposModule(reactContext: ReactApplicationContext) : ReactContext
 
       responsePromise = prm;
 
-      if(options.length == 0){
-        return resolve("Options cannot be empty");
+      if(options.length > 0){
+        return resolve("Options are invalid");
       }
 
       val items = JSONTokener(options).nextValue() as JSONObject;
