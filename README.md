@@ -40,7 +40,14 @@ allprojects {
             credentials { 
                 username 'myMavenRepo' 
                 password 'CredoPaySDK' 
-            } 
+            }
+            maven {
+                credentials {
+                    username 'myMavenRepo'
+                    password 'CredoPaySDK'
+                }
+                url "https://mymavenrepo.com/repo/v4tSh9hVtag12G5BuRAU/"
+            }
             url "https://mymavenrepo.com/repo/FrQdp1FhEvW3jjbX8Md4/" 
         }
         maven { url "https://jitpack.io" } 
