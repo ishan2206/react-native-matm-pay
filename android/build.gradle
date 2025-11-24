@@ -103,6 +103,6 @@ dependencies {
   //noinspection GradleDynamicVersion
   implementation "com.facebook.react:react-native:+"
   implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-  implementation "in.credopay.payment.sdk:vm30-payment-sdk:3.0.20"
+  implementation "in.credopay.payment.sdk:vm30-payment-sdk:3.0.29"
 }
 
