@@ -100,10 +100,6 @@ class InstantpayMposModule(reactContext: ReactApplicationContext) : ReactContext
 
             return resolve("Failed to change password", FAILED);
           }
-          CredopayPaymentConstants.BLUETOOTH_CONNECTIVITY_FAILED -> {
-
-            return resolve("Failed to connect with device", FAILED);
-          }
           else -> return resolve("Out of the box request code");
         }
       }
