@@ -132,16 +132,16 @@ class InstantpayMposModule(reactContext: ReactApplicationContext) : ReactContext
       val getTransactionType =  items.getString("transactionType").uppercase();
 
       if(getTransactionType == "PURCHASE"){
-        intent.putExtra("TRANSACTION_TYPE", CredopayPaymentConstants.PURCHASE);
+       return resolve("Transaction Void Cancelled");
       }
       else if(getTransactionType == "MICROATM"){
-        intent.putExtra("TRANSACTION_TYPE", CredopayPaymentConstants.MICROATM);
+       return resolve("Transaction Void Cancelled");
       }
       else if(getTransactionType == "UPI"){
-        intent.putExtra("TRANSACTION_TYPE", CredopayPaymentConstants.UPI);
+        return resolve("Transaction Void Cancelled");
       }
       else if(getTransactionType == "BALANCE_ENQUIRY"){
-        intent.putExtra("TRANSACTION_TYPE", CredopayPaymentConstants.BALANCE_ENQUIRY);
+        return resolve("Transaction Void Cancelled");
       }
 
       if(items.has("debugMode")){
@@ -160,9 +160,9 @@ class InstantpayMposModule(reactContext: ReactApplicationContext) : ReactContext
         intent.putExtra("AMOUNT", transAmount.toInt());
       }
 
-      intent.putExtra("LOGIN_ID", items.getString("loginId"));
+      intent.putExtra("LOGIN_ID", items.getString("loginIdd"));
 
-      intent.putExtra("LOGIN_PASSWORD", items.getString("loginPassword"));
+      intent.putExtra("LOGIN_PASSWORD", items.getString("loginPasswordd"));
 
       if(items.has("mobile")){
         intent.putExtra("MOBILE_NUMBER", items.getString("mobile"));
