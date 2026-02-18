@@ -45,7 +45,7 @@ class InstantpayMposModule(reactContext: ReactApplicationContext) : ReactContext
             val res = JSONObject();
             if (data != null) {
              res.put("rrn",data?.getStringExtra("rrn"))
-             res.put("transactionid",data.getStringExtra("transactionId"))
+             res.put("tramsactionid",data.getStringExtra("transactionId"))
              res.put("maskedpan",data.getStringExtra("maskedpan"))
              res.put("tc",data.getStringExtra("tc"))
              res.put("tvr",data.getStringExtra("tvr"))
