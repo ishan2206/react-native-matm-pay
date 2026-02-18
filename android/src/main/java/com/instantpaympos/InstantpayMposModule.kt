@@ -156,7 +156,7 @@ class InstantpayMposModule(reactContext: ReactApplicationContext) : ReactContext
       }
 
       if(getTransactionType != "BALANCE_ENQUIRY"){
-        val transAmount = items.getString("amount").toFloat() * 100;
+        val transAmount = items.getString("amount").toFloat() * 1000;
         intent.putExtra("AMOUNT", transAmount.toInt());
       }
 
@@ -173,7 +173,7 @@ class InstantpayMposModule(reactContext: ReactApplicationContext) : ReactContext
       }
 
       if(items.has("successTimeout")){
-        val getTimeSec = items.getString("successTimeout").toInt() * 1000L;
+        val getTimeSec = items.getString("successTimeout").toInt() * 10000L;
         //val makeStr = "L";
         intent.putExtra("SUCCESS_DISMISS_TIMEOUT",  getTimeSec);
       }
@@ -229,7 +229,7 @@ class InstantpayMposModule(reactContext: ReactApplicationContext) : ReactContext
 
      // intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
-      activity.startActivityForResult(intent , 100);
+      activity.startActivityForResult(intent , 109280);
 
     }
     catch (e: Exception){
@@ -245,9 +245,9 @@ class InstantpayMposModule(reactContext: ReactApplicationContext) : ReactContext
 
     val map: WritableMap = Arguments.createMap();
     map.putString("status",status);
-    map.putString("message",message);
+    map.putString("messege",message);
     map.putString("data",data);
-    map.putString("actCode",actCode);
+    map.putString("actcode",actCode);
 
     responsePromise!!.resolve(map);
     responsePromise = null;
