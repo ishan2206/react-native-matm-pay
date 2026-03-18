@@ -36,7 +36,7 @@ class InstantpayMposModule(reactContext: ReactApplicationContext) : ReactContext
     ) {
       super.onActivityResult(activity, requestCode, resultCode, data)
 
-      if (requestCode == 1000992) {
+      if (requestCode == 100) {
 
         when (resultCode) {
 
@@ -45,22 +45,22 @@ class InstantpayMposModule(reactContext: ReactApplicationContext) : ReactContext
             val res = JSONObject();
             if (data != null) {
              res.put("rrn",data?.getStringExtra("rrn"))
-             res.put("tramsactionid",data.getStringExtra("transactionId"))
-             res.put("maskedpan",data.getStringExtra("maskedpan"))
+             res.put("transactionId",data.getStringExtra("transaction_id"))
+             res.put("maskedPan",data.getStringExtra("masked_pan"))
              res.put("tc",data.getStringExtra("tc"))
              res.put("tvr",data.getStringExtra("tvr"))
              res.put("tsi",data.getStringExtra("tsi"))
-             res.put("approvalcode",data.getStringExtra("approval_code"))
-             res.put("customerrefNo",data.getStringExtra("crn_u"))
+             res.put("approvalCode",data.getStringExtra("approval_code"))
+             res.put("customerRefNo",data.getStringExtra("crn_u"))
              //res.put("network",data.getStringExtra("network"))
-             res.put("cardApplicationname",data.getStringExtra("card_application_name"))
-             res.put("cardHoldername",data.getStringExtra("cardHolder_name"))
-             res.put("appversion",data.getStringExtra("2.6"))
-             res.put("cardtype",data.getStringExtra("card_type"))
-             res.put("applicationidentifier",data.getStringExtra("aid"))
-             res.put("accountbalance",data.getStringExtra("accountBalance"))
+             res.put("cardApplicationName",data.getStringExtra("card_application_name"))
+             res.put("cardHolderName",data.getStringExtra("card_holder_name"))
+             res.put("appVersion",data.getStringExtra("app_version"))
+             res.put("cardType",data.getStringExtra("card_type"))
+             res.put("applicationIdentifier",data.getStringExtra("aid"))
+             res.put("accountBalance",data.getStringExtra("account_balance"))
              res.put("amount",data.getStringExtra("amount"))
-             res.put("tramsactionType",data.getStringExtra("transactionType"))
+             res.put("transactionType",data.getStringExtra("transaction_type"))
              res.put("datetime",data.getStringExtra("datetime"))
            }
 
@@ -111,10 +111,13 @@ class InstantpayMposModule(reactContext: ReactApplicationContext) : ReactContext
     }
   }
 
-  init {
-    reactContext.addActivityEventListener(activityEventListener)
-  }
-
+//   init {
+//     reactContext.addActivityEventListener(activityEventListener)
+//   }
+override fun initialize() {
+    super.initialize()
+    reactApplicationContext.addActivityEventListener(activityEventListener)
+}
   //Credopay Methods
   private fun logoutDevice(){
     PaymentManager.getInstance().logout();
@@ -123,7 +126,13 @@ class InstantpayMposModule(reactContext: ReactApplicationContext) : ReactContext
   private fun startPayment(options: String){
     try{
 
-      val activity = currentActivity ?: return resolve("Activity doesn't exist")
+    //   val activity = currentActivity ?: return resolve("Activity doesn't exist")
+
+    val activity = currentActivity
+if (activity == null) {
+    resolve("Activity doesn't exist")
+    return
+}
 
       val items = JSONTokener(options).nextValue() as JSONObject;
 
@@ -132,16 +141,16 @@ class InstantpayMposModule(reactContext: ReactApplicationContext) : ReactContext
       val getTransactionType =  items.getString("transactionType").uppercase();
 
       if(getTransactionType == "PURCHASE"){
-       return resolve("Transaction Void Cancelled");
+        intent.putExtra("TRANSACTION_TYPE", CredopayPaymentConstants.PURCHASE);
       }
       else if(getTransactionType == "MICROATM"){
-       return resolve("Transaction Void Cancelled");
+        intent.putExtra("TRANSACTION_TYPE", CredopayPaymentConstants.MICROATM);
       }
       else if(getTransactionType == "UPI"){
-        return resolve("Transaction Void Cancelled");
+        intent.putExtra("TRANSACTION_TYPE", CredopayPaymentConstants.UPI);
       }
       else if(getTransactionType == "BALANCE_ENQUIRY"){
-        return resolve("Transaction Void Cancelled");
+        intent.putExtra("TRANSACTION_TYPE", CredopayPaymentConstants.BALANCE_ENQUIRY);
       }
 
       if(items.has("debugMode")){
@@ -156,13 +165,13 @@ class InstantpayMposModule(reactContext: ReactApplicationContext) : ReactContext
       }
 
       if(getTransactionType != "BALANCE_ENQUIRY"){
-        val transAmount = items.getString("amount").toFloat() * 1000;
+        val transAmount = items.getString("amount").toFloat() * 100;
         intent.putExtra("AMOUNT", transAmount.toInt());
       }
 
-      intent.putExtra("LOGIN_ID", items.getString("loginIdd"));
+      intent.putExtra("LOGIN_ID", items.getString("loginId"));
 
-      intent.putExtra("LOGIN_PASSWORD", items.getString("loginPasswordd"));
+      intent.putExtra("LOGIN_PASSWORD", items.getString("loginPassword"));
 
       if(items.has("mobile")){
         intent.putExtra("MOBILE_NUMBER", items.getString("mobile"));
@@ -173,7 +182,7 @@ class InstantpayMposModule(reactContext: ReactApplicationContext) : ReactContext
       }
 
       if(items.has("successTimeout")){
-        val getTimeSec = items.getString("successTimeout").toInt() * 10000L;
+        val getTimeSec = items.getString("successTimeout").toInt() * 1000L;
         //val makeStr = "L";
         intent.putExtra("SUCCESS_DISMISS_TIMEOUT",  getTimeSec);
       }
@@ -229,30 +238,49 @@ class InstantpayMposModule(reactContext: ReactApplicationContext) : ReactContext
 
      // intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
-      activity.startActivityForResult(intent , 109280);
-
+    //   activity.startActivityForResult(intent , 100);
+activity.runOnUiThread {
+    activity.startActivityForResult(intent, 100)
+}
     }
     catch (e: Exception){
       resolve(e.message.toString()+" #SPAYEXP");
     }
   }
 
-  private fun resolve(message: String, status: String = FAILED ,data: String = "", actCode: String = "" ){
+//   private fun resolve(message: String, status: String = FAILED ,data: String = "", actCode: String = "" ){
 
-    if(responsePromise == null){
-      return;
+//     if(responsePromise == null){
+//       return;
+//     }
+
+//     val map: WritableMap = Arguments.createMap();
+//     map.putString("status",status);
+//     map.putString("message",message);
+//     map.putString("data",data);
+//     map.putString("actCode",actCode);
+
+//     responsePromise!!.resolve(map);
+//     responsePromise = null;
+//   }
+
+  private fun resolve(
+    message: String,
+    status: String = FAILED,
+    data: String = "",
+    actCode: String = ""
+) {
+    responsePromise?.let { promise ->
+        val map: WritableMap = Arguments.createMap()
+        map.putString("status", status)
+        map.putString("message", message)
+        map.putString("data", data)
+        map.putString("actCode", actCode)
+
+        promise.resolve(map)
+        responsePromise = null
     }
-
-    val map: WritableMap = Arguments.createMap();
-    map.putString("status",status);
-    map.putString("messege",message);
-    map.putString("data",data);
-    map.putString("actcode",actCode);
-
-    responsePromise!!.resolve(map);
-    responsePromise = null;
-  }
-
+}
   private fun logPrint(value: String?) {
     if (value == null) {
       return
@@ -273,8 +301,8 @@ class InstantpayMposModule(reactContext: ReactApplicationContext) : ReactContext
 
       responsePromise = prm;
 
-      if(options.length > 0){
-        return resolve("Options are invalid");
+      if(options.isEmpty()){
+        return resolve("Options cannot be empty");
       }
 
       val items = JSONTokener(options).nextValue() as JSONObject;
@@ -315,4 +343,9 @@ class InstantpayMposModule(reactContext: ReactApplicationContext) : ReactContext
       resolve(e.message.toString()+" #STRNEXP");
     }
   }
+
+  override fun invalidate() {
+    super.invalidate()
+    responsePromise = null
+}
 }
